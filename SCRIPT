@@ -1,0 +1,45 @@
+
+let books = [];
+
+document.getElementById('add-book-btn').addEventListener('click', (e) => {
+    e.preventDefault();
+    const title = document.getElementById('title').value;
+    const author = document.getElementById('author').value;
+    const isbn = document.getElementById('isbn').value;
+
+    if (title && author && isbn) {
+        const book = {
+            title,
+            author,
+            isbn
+        };
+        books.push(book);
+        displayBooks();
+        document.getElementById('title').value = '';
+        document.getElementById('author').value = '';
+        document.getElementById('isbn').value = '';
+    }
+});
+
+function displayBooks() {
+    const bookList = document.getElementById('book-list');
+    bookList.innerHTML = '';
+
+    books.forEach((book, index) => {
+        const bookHTML = `
+            <div class="book">
+                <span class="book-title">${book.title}</span>
+                <span class="book-author">by ${book.author}</span>
+                <span>ISBN: ${book.isbn}</span>
+                <button onclick="deleteBook(${index})">Delete</button>
+            </div>
+        `;
+        bookList.innerHTML += bookHTML;
+    });
+}
+
+function deleteBook(index) {
+    books.splice(index, 1);
+    displayBooks();
+}
+
